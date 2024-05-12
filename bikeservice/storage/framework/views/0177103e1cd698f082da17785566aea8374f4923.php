@@ -1,0 +1,2 @@
+[<?php echo e($slot); ?>](<?php echo e($url); ?>)
+<?php /**PATH D:\bike service\Bike-service-application\bikeservice\vendor\laravel\framework\src\Illuminate\Mail/resources/views/text/header.blade.php ENDPATH**/ ?>
