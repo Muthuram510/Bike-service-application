@@ -22,6 +22,7 @@ class booked extends Mailable
     public $booking;
     public function __construct(Service $service)
     {
+        //to retrieve the details of the booking to mail
         $this->booking=$service;
     }
 

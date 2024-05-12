@@ -17,6 +17,7 @@ class Service extends Model
      */
     public function user()
     {
+        //Many to one relationship implements here
         return $this->belongsTo(User::class);
     }
 }

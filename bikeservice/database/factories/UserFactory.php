@@ -18,6 +18,7 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        //to check many users to check functionality
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),

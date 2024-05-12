@@ -22,7 +22,10 @@ class UserController extends Controller
      */
     public function index()
     {
+        // Retrieve paginated list of users with their roles
         $users = User::with('roles:id,name')->paginate(10);
+
+        // Render the users index view with the retrieved users data
         return view('users.index', compact('users'));
     }
 
@@ -33,7 +36,10 @@ class UserController extends Controller
      */
     public function create()
     {
+        // Retrieve all roles
         $roles = Role::all();
+
+        // Render the create user form view with the roles data
         return view('users.create', compact('roles'));
     }
 
@@ -45,12 +51,17 @@ class UserController extends Controller
      */
     public function store(UserStoreRequest $request)
     {
+        // Create a new user in the database
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make('password123'),
+            'password' => Hash::make('password123'), // Hash the password
         ]);
+
+        // Assign role to the user
         $user->assignRole([$request->role_id]);
+
+        // Redirect back to the users index page with a success message
         return redirect()->route('user.index')->with('success','User created successfully!');
     }
 
@@ -62,6 +73,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        // Render the user show view with the specified user data
         return view('users.show', compact('user'));
     }
 
@@ -73,7 +85,10 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        // Retrieve all roles
         $roles = Role::all();
+
+        // Render the edit user form view with the specified user and roles data
         return view('users.edit', compact('user', 'roles'));
     }
 
@@ -82,16 +97,21 @@ class UserController extends Controller
      *
      * @param UserUpdateRequest $request
      * @param User $user
-     * @return Application|RedirectResponse|Redirector
+     * @return Application|Redirector|RedirectResponse
      */
     public function update(UserUpdateRequest $request, User $user)
     {
+        // Update the user details in the database
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make('password123'),
+            'password' => Hash::make('password123'), // Hash the password
         ]);
+
+        // Sync user roles
         $user->syncRoles([$request->role_id]);
+
+        // Redirect back to the users index page with a success message
         return redirect()->route('user.index')->with('success','User updated successfully!');
     }
 
@@ -103,7 +123,10 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        // Delete the user from the database
         $user->delete();
+
+        // Redirect back to the users index page with a success message
         return redirect()->route('user.index')->with('success','User deleted successfully!');
     }
 }

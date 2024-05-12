@@ -28,6 +28,7 @@ class ServiceController extends Controller
      */
     public function index()
     {
+        //checks if the user is admin or not
         if (Gate::allows('isAdmin')) {
             // User has admin role, fetch all service
             $services = Service::select('model', 'date','option1','option2','option3','status', 'created_at', 'id')->paginate(10);
@@ -56,6 +57,7 @@ class ServiceController extends Controller
      */
     public function store(ServiceStoreRequest $request)
     {
+        //to book a service for customer
         $service = Service::create([
             'model' => $request->model,
             'body' => $request->body,
@@ -65,6 +67,8 @@ class ServiceController extends Controller
             'option3' => $request->option3,
             'date' => $request->date,
         ]);
+
+        //event will trigger once the booking is created and mail send to John
         event(new BookingMade($service));
         return redirect()->route('service.index')->with('success','Service created successfully!');
     }
@@ -77,6 +81,7 @@ class ServiceController extends Controller
      */
     public function show(Service $service)
     {
+        //to show the details of booking
         return view('service.show', compact('service'));
     }
 
@@ -100,12 +105,14 @@ class ServiceController extends Controller
      */
     public function update(ServiceUpdateRequest $request, Service $service)
     {
+        //to update the details and status as ready for delivery or completed by John
         $service->update([
             'model' => $request->model,
             'body' => $request->body,
             'status'=>$request->status,
             'date' => $request->date,
         ]);
+        //if john update the status as ready for delivery then mail will be sent to particular user mail
         $user=User::findorfail($service->user_id);
         if($service->status=='Ready for delivery') {
             Mail::to($user->email)->send(new BookingReadyForDeliveryNotification($service));
@@ -121,6 +128,7 @@ class ServiceController extends Controller
      */
     public function destroy(Service $service)
     {
+        //to delete a booking by john
         $service->delete();
         return redirect()->route('service.index')->with('success','Service deleted successfully!');
     }

@@ -49,6 +49,7 @@ class User extends Authenticatable
      */
     public function blogs()
     {
+        //has many relationship established here because one user has many bookings
         return $this->hasMany(Service::class);
     }
 }

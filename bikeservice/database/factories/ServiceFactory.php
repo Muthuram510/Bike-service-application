@@ -18,6 +18,7 @@ class ServiceFactory extends Factory
      */
     public function definition()
     {
+        //to create bookings to check the app functionality
         return [
             'user_id' => DB::table('users')->pluck('id')->random(),
             'model' => fake()->word(),

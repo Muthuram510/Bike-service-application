@@ -22,6 +22,7 @@ class BookingReadyForDeliveryNotification extends Mailable
     public $service;
     public function __construct(Service $service)
     {
+        //to retrieve the details of the booking to mail
         $this->service = $service;
     }
 
@@ -45,6 +46,7 @@ class BookingReadyForDeliveryNotification extends Mailable
     public function content()
     {
         return new Content(
+            //markdown the mail
             markdown: 'email.booking_ready',
         );
     }
