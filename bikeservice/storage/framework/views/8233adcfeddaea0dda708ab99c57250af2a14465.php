@@ -8,7 +8,6 @@
 </head>
 <body>
 <h1>Booking Confirmation</h1>
-
 <p>Thank you for booking our service. Here are the details:</p>
 
 <p><strong>Model:</strong> <?php echo e($booking->model); ?></p>
